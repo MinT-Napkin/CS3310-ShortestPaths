@@ -15,11 +15,19 @@ public class Demo {
         graph.addEdge(4, 1, 4);
 
         int[] dijkstra0 = dijkstra(graph, 0);
+        int[] dijkstra1 = dijkstra(graph, 1);
+        int[] dijkstra2 = dijkstra(graph, 2);
+        int[] dijkstra3 = dijkstra(graph, 3);
+        int[] dijkstra4 = dijkstra(graph, 4);
 
         graph.printAdjList();
         graph.printMatrix();
 
         printArray(dijkstra0);
+        printArray(dijkstra1);
+        printArray(dijkstra2);
+        printArray(dijkstra3);
+        printArray(dijkstra4);
     }
 
     public static int[] dijkstra(Graph a_graph, int src)
@@ -48,30 +56,6 @@ public class Demo {
     
             for (int v = 0; v < V; v++)
             {
-                // !mark[v] ~ if the following vertex is not marked yet...
-                // graph[u][v] != 0 && dist[u] != Integer.MAX_VALUE
-
-
-                // System.out.print(dist[v]);
-                // System.out.println();
-                // System.out.print(dist[u] + graph[u][v]);
-
-                // if (!sptSet[v] && graph[u][v] != 0
-                //     && dist[u] != Integer.MAX_VALUE
-                //     && dist[u] + graph[u][v] < dist[v])
-                //     dist[v] = dist[u] + graph[u][v];
-
-                if(u == 2)
-                {
-                    System.out.println(v);
-                    System.out.println("1: " + !mark[v]);
-                    System.out.println("2: " + (graph[u][v] != 0 && graph[u][v] != -1));
-                    System.out.println("3: " + (dist[v] > dist[u] + graph[u][v]));
-                    System.out.println(dist[v]);
-                    System.out.println(dist[u] + graph[u][v]);
-                    System.out.println();
-                }
-
                 if (!mark[v] && graph[u][v] != 0 && graph[u][v] != -1 && (dist[v] == -1 || dist[v] > dist[u] + graph[u][v]))
                 {
                     dist[v] = dist[u] + graph[u][v];
@@ -114,7 +98,7 @@ public class Demo {
     {
         int vertices = arr.length;
 
-        System.out.println();
+        System.out.println("\n");
 
         for (int i = 0; i < vertices; i++) 
         {
