@@ -9,74 +9,78 @@ public class Demo {
         
         // SPARSE GRAPH
         System.out.println("\n-----Sparse GRAPH-----");
-        Graph dGraph = new Graph(5);
-        dGraph.addEdge(0, 1, 4);
-        dGraph.addEdge(1, 2, 2);
-        dGraph.addEdge(2, 3, 7);
-        dGraph.addEdge(3, 4, 2);
-        dGraph.addEdge(4, 3, 1);
+        Graph sGraph = new Graph(5);
+        sGraph.addEdge(0, 1, 4);
+        sGraph.addEdge(1, 2, 2);
+        sGraph.addEdge(2, 3, 7);
+        sGraph.addEdge(3, 4, 2);
+        sGraph.addEdge(4, 0, 1);
         
-        int[] dijkstra0 = dijkstra(dGraph, 0);
-        // int[] dijkstra1 = dijkstra(dGraph, 1);
-        // int[] dijkstra2 = dijkstra(dGraph, 2);
-        // int[] dijkstra3 = dijkstra(dGraph, 3);
-        // int[] dijkstra4 = dijkstra(dGraph, 4);
+        int[] sDijkstra0 = dijkstra(sGraph, 0);
+        int[] sDijkstra1 = dijkstra(sGraph, 1);
+        int[] sDijkstra2 = dijkstra(sGraph, 2);
+        int[] sDijkstra3 = dijkstra(sGraph, 3);
+        int[] sDijkstra4 = dijkstra(sGraph, 4);
+        int[][] sFloyd = sGraph.getMatrix();
         
-        dGraph.printAdjList();
-        dGraph.printMatrix();
+        System.out.println("\n***ADJACENCY LIST***");
+        sGraph.printAdjList();
+        System.out.println("\n\n***MATRIX***");
+        sGraph.printMatrix();
         
-        System.out.println("\nSource: 0");
-        printArray(dijkstra0);
-        
-        // System.out.println("\nSource: 1");
-        // printArray(dijkstra1);
-        
-        // System.out.println("\nSource: 2");
-        // printArray(dijkstra2);
-        
-        // System.out.println("\nSource: 3");
-        // printArray(dijkstra3);
-        
-        // System.out.println("\nSource: 4");
-        // printArray(dijkstra4);
-
+        System.out.println("\n\n***DIJKSTRA RESULTS***");
+        System.out.println("\nDIJKSTRA Source Vertex: 0");
+        printArray(sDijkstra0);
+        System.out.println("\nDIJKSTRA Source Vertex: 1");
+        printArray(sDijkstra1);
+        System.out.println("\nDIJKSTRA Source Vertex: 2");
+        printArray(sDijkstra2);
+        System.out.println("\nDIJKSTRA Source Vertex: 3");
+        printArray(sDijkstra3);
+        System.out.println("\nDIJKSTRA Source Vertex: 4");
+        printArray(sDijkstra4);
+        System.out.println("\n\n\n***FLOYD WARSHALL RESULTS***\n");
+        floydWarshall(sFloyd);
+        printSolution(sFloyd);
 
         // SPARSE GRAPH
         System.out.println("\n-----Dense GRAPH-----");
-        Graph sGraph = new Graph(5);
-        sGraph.addEdge(0, 1, 4);
-        sGraph.addEdge(0, 2, 3);
-        sGraph.addEdge(1, 3, 2);
-        sGraph.addEdge(1, 2, 5);
-        sGraph.addEdge(2, 3, 7);
-        sGraph.addEdge(3, 4, 2);
-        sGraph.addEdge(4, 0, 4);
-        sGraph.addEdge(4, 1, 4);
+        Graph dGraph = new Graph(5);
+        dGraph.addEdge(0, 1, 4);
+        dGraph.addEdge(0, 2, 3);
+        dGraph.addEdge(1, 3, 2);
+        dGraph.addEdge(1, 2, 5);
+        dGraph.addEdge(2, 3, 7);
+        dGraph.addEdge(3, 4, 2);
+        dGraph.addEdge(4, 0, 4);
+        dGraph.addEdge(4, 1, 4);
 
-        int[] sdijkstra0 = dijkstra(sGraph, 0);
-        // int[] sdijkstra1 = dijkstra(sGraph, 1);
-        // int[] sdijkstra2 = dijkstra(sGraph, 2);
-        // int[] sdijkstra3 = dijkstra(sGraph, 3);
-        // int[] sdijkstra4 = dijkstra(sGraph, 4);
+        int[] dDijkstra0 = dijkstra(dGraph, 0);
+        int[] dDijkstra1 = dijkstra(sGraph, 1);
+        int[] dDijkstra2 = dijkstra(sGraph, 2);
+        int[] dDijkstra3 = dijkstra(sGraph, 3);
+        int[] dDijkstra4 = dijkstra(sGraph, 4);
+        int[][] dFloyd = dGraph.getMatrix();
 
-        sGraph.printAdjList();
-        sGraph.printMatrix();
+        System.out.println("\n***ADJACENCY LIST***");
+        dGraph.printAdjList();
+        System.out.println("\n\n***MATRIX***");
+        dGraph.printMatrix();
 
-        System.out.println("\nSource: 0");
-        printArray(sdijkstra0);
-        
-        // System.out.println("\nSource: 1");
-        // printArray(sdijkstra1);
-        
-        // System.out.println("\nSource: 2");
-        // printArray(sdijkstra2);
-        
-        // System.out.println("\nSource: 3");
-        // printArray(sdijkstra3);
-        
-        // System.out.println("\nSource: 4");
-        // printArray(sdijkstra4);
-
+        System.out.println("\n\n***DIJKSTRA RESULTS***");
+        System.out.println("\nDIJKSTRA ~ Source Vertex: 0");
+        printArray(dDijkstra0);
+        System.out.println("\nDIJKSTRA Source Vertex: 1");
+        printArray(dDijkstra1);
+        System.out.println("\nDIJKSTRA Source Vertex: 2");
+        printArray(dDijkstra2);
+        System.out.println("\nDIJKSTRA Source Vertex: 3");
+        printArray(dDijkstra3);
+        System.out.println("\nDIJKSTRA Source Vertex: 4");
+        printArray(dDijkstra4);
+        System.out.println("\n\n\n***FLOYD WARSHALL RESULTS***\n");
+        floydWarshall(dFloyd);
+        printSolution(dFloyd);
 
         /* ------------TESTING------------ */
 
@@ -86,6 +90,10 @@ public class Demo {
 
         int[] sparseGraphShortestPaths;
         int[] denseGraphShortestPaths;
+        int[][] tempS = sparseGraphTest.getMatrix();
+        int[][] tempD = denseGraphTest.getMatrix();
+
+        System.out.println("\n\n***TESTING***");
         
         System.out.println("\nTESTING RUNTIME : Random Graphs with " + sizeN + " Vertices\n");
 
@@ -116,10 +124,11 @@ public class Demo {
 
             // Floyd-Warshall ~ Sparse
             startTime = System.nanoTime();
-            // naiveMultiplication(randomMatrix1, randomMatrix2);
+            floydWarshall(tempS);
             endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
             fwAvgSparse += elapsedTime;
+            tempS = sparseGraphTest.getMatrix();
             System.out.print("Floyd Warshall . . . ");
 
             System.out.print("Sparse Complete . . . ");
@@ -134,10 +143,11 @@ public class Demo {
 
             // Floyd-Warshall ~ Dense
             startTime = System.nanoTime();
-            // naiveMultiplication(randomMatrix1, randomMatrix2);
+            floydWarshall(tempD);
             endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
             fwAvgDense += elapsedTime;
+            tempD = denseGraphTest.getMatrix();
             System.out.print("Floyd Warshall . . . ");
 
             System.out.print("Dense Complete . . . \n");
@@ -253,26 +263,26 @@ public class Demo {
     {
         int vertices = arr.length;
 
-        for (int i = 0; i < vertices; i++) 
-        {
-            System.out.printf("%-2d ", i);
-        }        
+        // for (int i = 0; i < vertices; i++) 
+        // {
+        //     System.out.printf("%-2d ", i);
+        // }        
 
-        System.out.println();
+        // System.out.println();
 
         for (int i = 0; i < vertices; i++) 
         {   
             if(arr[i] == INF)
             {
-                System.out.printf("%-2s ", "∞");
+                System.out.printf("%-4s ", "∞");
             }
             else
             {
-                System.out.printf("%-2d ", arr[i]);
+                System.out.printf("%-4d ", arr[i]);
             }
         }
 
-        System.out.println();
+        // System.out.println();
     }
 
 
@@ -288,7 +298,7 @@ public class Demo {
 				// Pick all vertices as destination for the above picked source
 				for (j = 0; j < V; j++) {
 					// If vertex k is on the shortest path from i to j, then update the value of dist[i][j]
-					if (dist[i][k] + dist[k][j] < dist[i][j])
+					if (dist[i][k] + dist[k][j] < dist[i][j] && dist[i][k] != INF && dist[k][j] != INF)
                     {
                         dist[i][j] = dist[i][k] + dist[k][j];
                     }
@@ -297,7 +307,7 @@ public class Demo {
 		}
 
 		// Print the shortest distance matrix
-		printSolution(dist);
+		// printSolution(dist);
 	}
 
 	public static void printSolution(int dist[][])
@@ -310,9 +320,9 @@ public class Demo {
 		for (int i = 0; i < V; ++i) {
 			for (int j = 0; j < V; ++j) {
 				if (dist[i][j] == INF)
-					System.out.print("INF ");
+					System.out.printf("%-4s", "∞");
 				else
-					System.out.print(dist[i][j] + " ");
+					System.out.printf("%-4d", dist[i][j]);
 			}
 			System.out.println();
 		}
