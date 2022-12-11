@@ -2,6 +2,9 @@ import java.util.LinkedList;
 
 public class Graph {
 
+    
+    private final static int INF = Integer.MAX_VALUE;
+
     private int vertices;
     private int[][] matrix;
     private LinkedList<Edge>[] adjacencyList;
@@ -17,7 +20,7 @@ public class Graph {
             for (int j = 0; j < vertices; j++) 
             {
                 // indicates no edge
-                matrix[i][j] = -1;
+                matrix[i][j] = INF;
 
                 if(i == j)
                 {
@@ -71,7 +74,14 @@ public class Graph {
 
             for (int j = 0; j < vertices ; j++) 
             {
-                System.out.printf(" %2d ", matrix[i][j]);
+                if(matrix[i][j] == INF)
+                {
+                    System.out.printf(" %2s ", "∞");
+                }
+                else
+                {
+                    System.out.printf(" %2d ", matrix[i][j]);
+                }
             }
 
             System.out.println();
