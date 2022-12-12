@@ -16,32 +16,24 @@ public class Demo {
         sGraph.addEdge(3, 4, 2);
         sGraph.addEdge(4, 0, 1);
         
-        int[] sDijkstra0 = dijkstra(sGraph, 0);
-        int[] sDijkstra1 = dijkstra(sGraph, 1);
-        int[] sDijkstra2 = dijkstra(sGraph, 2);
-        int[] sDijkstra3 = dijkstra(sGraph, 3);
-        int[] sDijkstra4 = dijkstra(sGraph, 4);
+        int[][] sDijkstra = dijkstraAll(sGraph);
         int[][] sFloyd = sGraph.getMatrix();
         
         // System.out.println("\n***ADJACENCY LIST***");
         // sGraph.printAdjList();
         System.out.println("\n***MATRIX***");
         sGraph.printMatrix();
+
+        System.out.println("\n\n***EXTRA CREDIT RESULTS***");
+        shortestPath(sGraph, 0, 3);
         
         System.out.println("\n\n***DIJKSTRA RESULTS***");
-        System.out.println("\nDIJKSTRA Source Vertex: 0");
-        printArray(sDijkstra0);
-        System.out.println("\nDIJKSTRA Source Vertex: 1");
-        printArray(sDijkstra1);
-        System.out.println("\nDIJKSTRA Source Vertex: 2");
-        printArray(sDijkstra2);
-        System.out.println("\nDIJKSTRA Source Vertex: 3");
-        printArray(sDijkstra3);
-        System.out.println("\nDIJKSTRA Source Vertex: 4");
-        printArray(sDijkstra4);
-        System.out.println("\n\n\n***FLOYD WARSHALL RESULTS***\n");
+        printSolution(sDijkstra, "Dijkstra");
+
+        System.out.println("\n\n***FLOYD WARSHALL RESULTS***\n");
         floydWarshall(sFloyd);
-        printSolution(sFloyd);
+        printSolution(sFloyd, "Floyd-Warshall");
+
 
         // DENSE GRAPH
         System.out.println("\n-----Dense GRAPH-----");
@@ -55,11 +47,7 @@ public class Demo {
         dGraph.addEdge(4, 0, 4);
         dGraph.addEdge(4, 1, 4);
 
-        int[] dDijkstra0 = dijkstra(dGraph, 0);
-        int[] dDijkstra1 = dijkstra(dGraph, 1);
-        int[] dDijkstra2 = dijkstra(dGraph, 2);
-        int[] dDijkstra3 = dijkstra(dGraph, 3);
-        int[] dDijkstra4 = dijkstra(dGraph, 4);
+        int[][] dDijkstra = dijkstraAll(dGraph);
         int[][] dFloyd = dGraph.getMatrix();
 
         // System.out.println("\n***ADJACENCY LIST***");
@@ -67,20 +55,15 @@ public class Demo {
         System.out.println("\n***MATRIX***");
         dGraph.printMatrix();
 
+        System.out.println("\n\n***EXTRA CREDIT RESULTS***");
+        shortestPath(dGraph, 0, 4);
+
         System.out.println("\n\n***DIJKSTRA RESULTS***");
-        System.out.println("\nDIJKSTRA ~ Source Vertex: 0");
-        printArray(dDijkstra0);
-        System.out.println("\nDIJKSTRA Source Vertex: 1");
-        printArray(dDijkstra1);
-        System.out.println("\nDIJKSTRA Source Vertex: 2");
-        printArray(dDijkstra2);
-        System.out.println("\nDIJKSTRA Source Vertex: 3");
-        printArray(dDijkstra3);
-        System.out.println("\nDIJKSTRA Source Vertex: 4");
-        printArray(dDijkstra4);
-        System.out.println("\n\n\n***FLOYD WARSHALL RESULTS***\n");
+        printSolution(dDijkstra, "Dijkstra");
+
+        System.out.println("\n\n***FLOYD WARSHALL RESULTS***\n");
         floydWarshall(dFloyd);
-        printSolution(dFloyd);
+        printSolution(dFloyd, "Floyd-Warshall");
 
         /* ------------TESTING------------ */
 
@@ -88,8 +71,6 @@ public class Demo {
         Graph sparseGraphTest = populateSparseGraph(sizeN);
         Graph denseGraphTest = populateDenseGraph(sizeN);
 
-        int[] sparseGraphShortestPaths;
-        int[] denseGraphShortestPaths;
         int[][] tempS = sparseGraphTest.getMatrix();
         int[][] tempD = denseGraphTest.getMatrix();
 
@@ -116,7 +97,7 @@ public class Demo {
             System.out.print(attempts + " ");
             attempts--;
             startTime = System.nanoTime();
-            sparseGraphShortestPaths = dijkstra(sparseGraphTest, 0);
+            dijkstra(sparseGraphTest, 0);
             endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
             dAvgSparse += elapsedTime;
@@ -135,7 +116,7 @@ public class Demo {
 
             // Dijkstra ~ Dense
             startTime = System.nanoTime();
-            denseGraphShortestPaths = dijkstra(denseGraphTest, 0);
+            dijkstra(denseGraphTest, 0);
             endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
             dAvgDense += elapsedTime;
@@ -166,6 +147,19 @@ public class Demo {
     }
 
     // Dijkstra Algorithm (Minh Tran)
+    public static int[][] dijkstraAll(Graph a_graph)
+    {
+        int vertices = a_graph.getVertices();
+        int[][] result = new int[vertices][vertices];
+
+        for (int i = 0; i < vertices; i++) 
+        {
+            result[i] = dijkstra(a_graph, i);    
+        }
+
+        return result;
+    }
+
     public static int[] dijkstra(Graph a_graph, int src)
     {
         int[][] graph = a_graph.getMatrix();
@@ -310,13 +304,13 @@ public class Demo {
 		// printSolution(dist);
 	}
 
-	public static void printSolution(int dist[][])
+	public static void printSolution(int dist[][], String algo)
 	{
         int V = dist.length;
 
 		System.out.println(
 			"The following matrix shows the shortest "
-			+ "distances between every pair of vertices based on the Floyd Warshall algorithm.");
+			+ "distances between every pair of vertices based on the " + algo + " algorithm.");
 		for (int i = 0; i < V; ++i) {
 			for (int j = 0; j < V; ++j) {
 				if (dist[i][j] == INF)
@@ -327,4 +321,132 @@ public class Demo {
 			System.out.println();
 		}
 	}
+
+    //EXTRA CREDIT METHODS
+
+    public static int[] shortestPath(Graph a_graph, int src, int destination)
+    {
+
+        int[][] graph = a_graph.getMatrix();
+        int V = a_graph.getVertices();
+
+        int dist[] = new int[V];
+        int prev[] = new int[V];
+        int pathToDestination[][] = new int[V][V];
+        int selectVertex = -1;
+        Boolean mark[] = new Boolean[V];
+    
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < mark.length; j++) {
+                pathToDestination[i][j] = -1;
+            }
+        }
+    
+        // Initialize dist, prev, mark
+        for (int i = 0; i < V; i++) {
+            dist[i] = graph[src][i];
+            prev[i] = src;
+            pathToDestination[i][0] = i;
+            // printPath(pathToDestination[i]);
+            // System.out.println();
+            mark[i] = false;
+        }
+    
+        mark[src] = true;
+    
+        int counter = 0;
+        for (int count = 0; count < V - 1; count++) {
+
+            int u = findMinimumDistance(dist, mark);
+
+            if(u != INF)
+            {
+                mark[u] = true;
+        
+                for (int v = 0; v < V; v++)
+                {
+                    if (!mark[v] && graph[u][v] > 0 && graph[u][v] != INF && (dist[v] == INF || dist[v] > dist[u] + graph[u][v]))
+                    {
+                        
+                        dist[v] = dist[u] + graph[u][v];
+
+                        count = 0;
+                        for (int i = 0; i < V; i++) {
+                            if(pathToDestination[prev[v]][i] == -1)
+                            {
+                                // System.out.println(pathToDestination[i]);
+                                pathToDestination[prev[v]][i] = u;
+                                // System.out.println(pathToDestination[i]);
+                                i = V;
+
+                                counter++;
+                                // System.out.print("V: " + v + " ");
+                                // printPath(pathToDestination[prev[v]]);
+                                // System.out.println();
+                            }
+                        }
+
+                        int temp = prev[v];
+                        prev[v] = u;
+
+                        if(v == destination)
+                        {
+                            count = 0;
+                            for (int i = 0; i < V; i++) {
+                                if(pathToDestination[temp][i] == -1)
+                                {
+                                    // System.out.println(destination);
+                                    // System.out.println(pathToDestination[i]);
+                                    pathToDestination[temp][i] = destination;
+                                    // System.out.println(pathToDestination[i]);
+                                    i = V;
+    
+                                    counter++;
+                                    // System.out.print("V: " + v + " ");
+                                    // printPath(pathToDestination[temp]);
+                                    // System.out.println();
+                                }
+                            }
+                            selectVertex = temp;
+                            break;
+                        }
+
+    
+                    }
+                }
+            }
+        }
+
+        if(selectVertex == -1)
+        {
+            // no path to destination
+            return null;
+        }
+
+        int[] result = new int[counter+1];
+        for (int i = 0; i < counter+1; i++) {
+            result[i] = pathToDestination[selectVertex][i];
+        }
+
+        System.out.println();
+        printPath(result);
+
+        return result;
+    }
+
+    public static void printPath(int[] arr)
+    {
+        int vertices = arr.length;
+
+        System.out.println("Source Vertex: " + arr[0] + " / To Destination Vertex: " + arr[arr.length-1]);
+        for (int i = 0; i < vertices; i++) 
+        {   
+            System.out.printf("%d", arr[i]);
+
+            if(i != vertices-1)
+            {
+                System.out.print(" -> ");
+            }
+        }
+    }
 }
