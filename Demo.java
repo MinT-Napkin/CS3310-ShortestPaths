@@ -23,9 +23,9 @@ public class Demo {
         int[] sDijkstra4 = dijkstra(sGraph, 4);
         int[][] sFloyd = sGraph.getMatrix();
         
-        System.out.println("\n***ADJACENCY LIST***");
-        sGraph.printAdjList();
-        System.out.println("\n\n***MATRIX***");
+        // System.out.println("\n***ADJACENCY LIST***");
+        // sGraph.printAdjList();
+        System.out.println("\n***MATRIX***");
         sGraph.printMatrix();
         
         System.out.println("\n\n***DIJKSTRA RESULTS***");
@@ -43,7 +43,7 @@ public class Demo {
         floydWarshall(sFloyd);
         printSolution(sFloyd);
 
-        // SPARSE GRAPH
+        // DENSE GRAPH
         System.out.println("\n-----Dense GRAPH-----");
         Graph dGraph = new Graph(5);
         dGraph.addEdge(0, 1, 4);
@@ -56,15 +56,15 @@ public class Demo {
         dGraph.addEdge(4, 1, 4);
 
         int[] dDijkstra0 = dijkstra(dGraph, 0);
-        int[] dDijkstra1 = dijkstra(sGraph, 1);
-        int[] dDijkstra2 = dijkstra(sGraph, 2);
-        int[] dDijkstra3 = dijkstra(sGraph, 3);
-        int[] dDijkstra4 = dijkstra(sGraph, 4);
+        int[] dDijkstra1 = dijkstra(dGraph, 1);
+        int[] dDijkstra2 = dijkstra(dGraph, 2);
+        int[] dDijkstra3 = dijkstra(dGraph, 3);
+        int[] dDijkstra4 = dijkstra(dGraph, 4);
         int[][] dFloyd = dGraph.getMatrix();
 
-        System.out.println("\n***ADJACENCY LIST***");
-        dGraph.printAdjList();
-        System.out.println("\n\n***MATRIX***");
+        // System.out.println("\n***ADJACENCY LIST***");
+        // dGraph.printAdjList();
+        System.out.println("\n***MATRIX***");
         dGraph.printMatrix();
 
         System.out.println("\n\n***DIJKSTRA RESULTS***");
@@ -84,7 +84,7 @@ public class Demo {
 
         /* ------------TESTING------------ */
 
-        final int sizeN = 10;
+        final int sizeN = 3;
         Graph sparseGraphTest = populateSparseGraph(sizeN);
         Graph denseGraphTest = populateDenseGraph(sizeN);
 
