@@ -25,7 +25,7 @@ public class Demo {
         sGraph.printMatrix();
 
         System.out.println("\n\n***EXTRA CREDIT RESULTS***");
-        shortestPath(sGraph, 0, 3);
+        shortestPath(sGraph, 0, 4);
         
         System.out.println("\n\n***DIJKSTRA RESULTS***");
         printSolution(sDijkstra, "Dijkstra");
@@ -333,28 +333,28 @@ public class Demo {
         int dist[] = new int[V];
         int prev[] = new int[V];
         int pathToDestination[][] = new int[V][V];
-        int selectVertex = -1;
+        int path[] = new int[V];
         Boolean mark[] = new Boolean[V];
     
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < mark.length; j++) {
                 pathToDestination[i][j] = -1;
             }
+            path[i] = -1;
         }
     
         // Initialize dist, prev, mark
         for (int i = 0; i < V; i++) {
             dist[i] = graph[src][i];
             prev[i] = src;
-            pathToDestination[i][0] = i;
+            pathToDestination[i][0] = src;
             // printPath(pathToDestination[i]);
             // System.out.println();
             mark[i] = false;
         }
     
         mark[src] = true;
-    
-        int counter = 0;
+
         for (int count = 0; count < V - 1; count++) {
 
             int u = findMinimumDistance(dist, mark);
@@ -367,66 +367,73 @@ public class Demo {
                 {
                     if (!mark[v] && graph[u][v] > 0 && graph[u][v] != INF && (dist[v] == INF || dist[v] > dist[u] + graph[u][v]))
                     {
-                        
                         dist[v] = dist[u] + graph[u][v];
+                        prev[v] = u;    
+                    }
+                }
 
-                        count = 0;
-                        for (int i = 0; i < V; i++) {
-                            if(pathToDestination[prev[v]][i] == -1)
-                            {
-                                // System.out.println(pathToDestination[i]);
-                                pathToDestination[prev[v]][i] = u;
-                                // System.out.println(pathToDestination[i]);
-                                i = V;
-
-                                counter++;
-                                // System.out.print("V: " + v + " ");
-                                // printPath(pathToDestination[prev[v]]);
-                                // System.out.println();
-                            }
-                        }
-
-                        int temp = prev[v];
-                        prev[v] = u;
-
-                        if(v == destination)
+                for (int i = 0; i < V; i++) {
+                    for (int j = 0; j < V; j++) {
+                        if(pathToDestination[i][j] == prev[i])
                         {
-                            count = 0;
-                            for (int i = 0; i < V; i++) {
-                                if(pathToDestination[temp][i] == -1)
-                                {
-                                    // System.out.println(destination);
-                                    // System.out.println(pathToDestination[i]);
-                                    pathToDestination[temp][i] = destination;
-                                    // System.out.println(pathToDestination[i]);
-                                    i = V;
-    
-                                    counter++;
-                                    // System.out.print("V: " + v + " ");
-                                    // printPath(pathToDestination[temp]);
-                                    // System.out.println();
-                                }
-                            }
-                            selectVertex = temp;
-                            break;
+                            j = V;
                         }
-
-    
+                        else if(pathToDestination[i][j] == -1)
+                        {
+                            pathToDestination[i][j] = prev[i];
+                            j = V;
+                        }
+                        // System.out.println("\ni: " + i + "  j: " + j);
+                        // printSolution(pathToDestination, "Helper");;
                     }
                 }
             }
         }
 
-        if(selectVertex == -1)
+        if(!mark[destination])
         {
-            // no path to destination
+            // node cannot be visited
             return null;
         }
 
-        int[] result = new int[counter+1];
-        for (int i = 0; i < counter+1; i++) {
-            result[i] = pathToDestination[selectVertex][i];
+        int index = destination;
+        int counter = 0;
+        for (int i = V-1; i >= 0; i--) {
+
+            // System.out.println(pathToDestination[index][i]);
+
+            if(pathToDestination[index][i] == -1)
+            {
+                // don't do anything
+            }
+            else
+            {
+                path[counter] = index;
+                index = pathToDestination[index][i];
+                // System.out.println(pathToDestination[index][i]);
+                counter++;
+
+                // System.out.println();
+                // printArray(path);
+
+                if(pathToDestination[index][i] == src)
+                {
+                    path[counter] = index;
+                    // System.out.println();
+                    // printArray(path);
+                    break;
+                }
+
+                i = V-1;
+            }
         }
+
+        int[] result = new int[counter+1];
+
+        for (int i = 0; i < counter; i++) {
+            result[i] = path[counter - i];
+        }
+        result[counter] = destination;
 
         System.out.println();
         printPath(result);
